@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 struct FetchService {
     enum FetchError: Error {
         case badResponse
@@ -14,7 +15,7 @@ struct FetchService {
     
     private let baseURL = URL(string: "https://pokeapi.co/api/v2/pokemon")!
     
-    func fetchPokemon (_ id: Int) async throws -> FetchedPokemon {
+    func fetchPokemon (_ id: Int) async throws -> Pokemon {
         let fetchURL = baseURL.appending(path: String(id))
         
         let (data , response) = try await URLSession.shared.data(from: fetchURL)
@@ -26,7 +27,7 @@ struct FetchService {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
-        let pokemon = try decoder.decode(FetchedPokemon.self, from: data)
+        let pokemon = try decoder.decode(Pokemon.self, from: data)
         
         print("Fetched pokemon: \(pokemon.id): \(pokemon.name.capitalized)")
         

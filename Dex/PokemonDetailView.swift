@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    
-    @EnvironmentObject private var pokemon : Pokemon
+    @Environment(\.modelContext) private var modelContext
+
+    var pokemon : Pokemon
     
     @State private var showShiny = false
     
@@ -44,7 +44,7 @@ struct PokemonDetailView: View {
             }
             
             HStack {
-                ForEach(pokemon.types!, id: \.self) { type in
+                ForEach(pokemon.types, id: \.self) { type in
                     Text(type.capitalized)
                         .font(.title2)
                         .fontWeight(.bold)
@@ -62,7 +62,7 @@ struct PokemonDetailView: View {
                     pokemon.favorite.toggle()
                     
                     do {
-                        try viewContext.save()
+                        try modelContext.save()
                     } catch {
                         print(error)
                     }
@@ -81,7 +81,7 @@ struct PokemonDetailView: View {
             
             StatsView(pokemon: pokemon)
         }
-        .navigationTitle(pokemon.name!.capitalized)
+        .navigationTitle(pokemon.name.capitalized)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -97,7 +97,6 @@ struct PokemonDetailView: View {
 
 #Preview {
     NavigationStack {
-        PokemonDetailView()
-            .environmentObject(PersistenceController.previewPokemon)
+        PokemonDetailView(pokemon: PersistenceController.previewPokemon)
     }
 }
