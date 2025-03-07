@@ -45,8 +45,6 @@ struct PersistenceController {
         do {
             try viewContext.save()
         } catch {
-//            let nsError = error as NSError
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             print(error)
         }
         return result
@@ -60,6 +58,9 @@ struct PersistenceController {
             container.persistentStoreDescriptions.first!.url = URL(
                 fileURLWithPath: "/dev/null"
             )
+        } else {
+//            container.persistentStoreDescriptions.first!.url =  FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.educaubilla.DexGroup")!.appending(path: "Dex.sqlite")
+            container.persistentStoreDescriptions.first!.url =  FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.educaubilla.DexGroup")!.appending(path: "Dex.xcdatamodelId")
         }
         container
             .loadPersistentStores(

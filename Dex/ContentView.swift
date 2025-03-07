@@ -102,7 +102,7 @@ struct ContentView: View {
                                 }
                             }
                             .swipeActions (edge: .leading) {
-                                Button(pokemon.favorite ? "Remove from favorites" : "Add to Favorites", systemImage: "start") {
+                                Button(pokemon.favorite ? "Remove from favorites" : "Add to Favorites", systemImage: pokemon.favorite ? "minus.circle.fill" : "star") {
                                     pokemon.favorite.toggle()
                                     
                                     do {
